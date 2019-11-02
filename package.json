@@ -1,0 +1,18 @@
+{
+    "name": "@step/wepy-com-dialog",
+    "title": "wepy-com-dialog",
+    "description": "A component for displaying a dialog based on wepy.js 1.x.",
+    "version": "1.0.0",
+    "main": "com-dialog.wpy",
+    "author": "Fu Diwei",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/fudiwei/wepy-com-dialog.git"
+    },
+    "license": "MIT",
+    "scripts": {
+        "deploy": "npm publish --access=public"
+    },
+    "dependencies": {},
+    "devDependencies": {}
+}

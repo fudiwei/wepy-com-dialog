@@ -1,0 +1,288 @@
+<style lang="less">
+
+    .ui-dialog-mask {
+      position: fixed;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.4);
+      z-index: 9998;
+    }
+
+    .ui-dialog-wrapper {
+      position: absolute;
+      margin: 0 auto;
+      top: 50%;
+      left: 50%;
+      max-width: 90%;
+      width: 600rpx;
+      word-break: break-all;
+      border: none;
+      border-radius: 5px;
+      background-color: #fff;
+      overflow: hidden;
+      transform: translate(-50%, -55%);
+      z-index: 9999;
+
+      .ui-dialog-header {
+        color: #333;
+        padding: 32rpx 48rpx 0;
+
+        .ui-dialog-title {
+          font-weight: bold;
+          text-align: center;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          overflow: hidden;
+        }
+      }
+
+      .ui-dialog-body {
+        color: #999;
+        padding: 32rpx 48rpx 40rpx;
+
+        .ui-dialog-content {
+          text-align: center;
+        }
+      }
+
+      .ui-dialog-footer {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #666;
+        border-top: 1px solid #f1f1f1;
+        overflow: hidden;
+
+        .ui-dialog-btn-wrapper {
+          position: relative;
+          flex: 1;
+          padding: 20rpx 10rpx;
+          text-align: center;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          overflow: hidden;
+
+          &::after {
+            content: '';
+            display: block;
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 1px;
+            height: 100%;
+            background-color: #f1f1f1;
+          }
+
+          &:last-child::after {
+            content: none;
+          }
+        }
+
+        .ui-dialog-btn {
+          width: 100%;
+          height: 100%;
+          overflow: hidden;
+        }
+      }
+    }
+</style>
+
+<template lang="wxml">
+	<view class="ui-dialog-mask" hidden="{{!visible}}" @tap.stop="noop">
+        <view class="ui-dialog-wrapper">
+            <view class="ui-dialog-header" wx:if="{{title}}">
+                <view class="ui-dialog-title">
+                    <text>{{title}}</text>
+                </view>
+            </view>
+            <view class="ui-dialog-body" style="{{cssText}}">
+                <text class="ui-dialog-content">
+                    <text>{{content}}</text>
+                </text>
+            </view>
+            <view class="ui-dialog-footer">
+                <repeat for="{{buttons}}">
+                    <view class="ui-dialog-btn-wrapper" data-index="{{index}}" @tap.stop="ontapButton">
+                        <view class="ui-dialog-btn" style="color: {{item.color}}">{{item.text}}</view>
+                    </view>
+                </repeat>
+            </view>
+        </view>
+	</view>
+</template>
+
+<script>
+    import Wepy from 'wepy';
+
+    const DEFAULT_PRIMVARY_TEXT_COLOR = '#90241a';
+
+    export default class UIDialog extends Wepy.component {
+        constructor() {
+            super();
+            this.data = this._defaultData();
+        }
+
+        props = {
+            /**
+             * 确认按钮文字颜色。
+             */
+            primaryTextColor: {
+                type: String,
+                default: DEFAULT_PRIMVARY_TEXT_COLOR
+            }
+        };
+
+        computed = {
+            cssText() {
+                if ('left' === this.textAlign) {
+                    return 'text-align: left;';
+                } else if ('right' === this.textAlign) {
+                    return 'text-align: right;';
+                } else {
+                    return 'text-align: center;';
+                }
+            }
+        };
+
+        methods = {
+            noop(e) {
+                // DoNothing
+                return false;
+            },
+
+            ontapButton(e) {
+                const callback = this.success;
+                if ('function' === typeof callback) {
+                    this._close();
+                    callback({ index: +e.currentTarget.dataset.index });
+                }
+            }
+        };
+
+        _defaultData() {
+            return {
+                visible: false,
+                title: '',
+                content: '',
+                buttons: [],
+                textAlign: '',
+                vertical: false,
+                success: () => { }
+            };
+        }
+
+        _open(options) {
+            let conf = this._defaultData();
+            if ('string' === typeof options) {
+                conf = Object.assign(conf, {
+                    content: String(options)
+                });
+            } else {
+                conf = Object.assign(conf, options);
+            }
+
+            this.visible = true;
+            this.title = conf.title;
+            this.content = conf.content;
+            this.buttons = conf.buttons;
+            this.textAlign = conf.textAlign;
+            this.vertical = conf.vertical;
+            this.success = conf.success;
+
+            setTimeout(() => this.$apply(), 1);
+        }
+
+        _close() {
+            const conf = this._defaultData();
+            for (let prop in conf) {
+                this[prop] = conf[prop];
+            }
+            this.$apply();
+        }
+
+        /**
+         * 显示提示对话框。
+         * @param {Object || String} options 配置项。
+         * @param {String} options.title 提示标题。
+         * @param {String} options.content 提示文本。
+         * @param {String} options.confirmText 确定按钮的文字，默认为"好的"。
+         * @param {String} options.confirmTextColor 确定按钮的文字颜色，默认为"#90241a"。
+         * @param {String} options.textAlign 提示文本的对齐方式，支持“left”、“center”、“right”，默认值为“center”。
+         * @param {Function} options.success 点击按钮后的回调方法。
+         */
+        alert(options = {}) {
+            const _defaultOptions = () => {
+                return {
+                    title: '',
+                    content: '',
+                    confirmText: '好的',
+                    confirmTextColor: this.primaryTextColor || DEFAULT_PRIMVARY_TEXT_COLOR
+                };
+            };
+            let conf = _defaultOptions();
+
+            if ('string' === typeof options) {
+                conf = Object.assign(conf, {
+                    content: String(options) || _defaultOptions().content
+                });
+            } else {
+                conf = Object.assign(conf, options);
+            }
+
+            return this._open(Object.assign({
+                buttons: [
+                    {
+                        text: conf.confirmText || _defaultOptions().confirmText,
+                        color: conf.confirmTextColor || _defaultOptions().confirmTextColor
+                    }
+                ]
+            }, conf));
+        }
+
+        /**
+         * 显示确认对话框。
+         * @param {Object || String} options 配置项。
+         * @param {String} options.title 提示标题。
+         * @param {String} options.content 提示文本。
+         * @param {String} options.confirmText 确定按钮的文字，默认为"好的"。
+         * @param {String} options.confirmTextColor 确定按钮的文字颜色，默认为"#90241a"。
+         * @param {String} options.cancelText 取消按钮的文字，默认为"取消"。
+         * @param {String} options.textAlign 提示文本的对齐方式，支持“left”、“center”、“right”，默认值为“center”。
+         * @param {Function} options.success 点击按钮后的回调方法，该方法将接收一个表示被点击按钮索引的参数。
+         */
+        confirm(options = {}) {
+            const _defaultOptions = () => {
+                return {
+                    title: '',
+                    content: '',
+                    confirmText: '好的',
+                    confirmTextColor: this.primaryTextColor || DEFAULT_PRIMVARY_TEXT_COLOR,
+                    cancelText: '取消'
+                };
+            };
+            let conf = _defaultOptions();
+
+            if ('string' === typeof options) {
+                conf = Object.assign(conf, {
+                    content: String(options) || _defaultOptions().content
+                });
+            } else {
+                conf = Object.assign(conf, options);
+            }
+
+            return this._open(Object.assign({
+                buttons: [
+                    {
+                        text: options.cancelText || _defaultOptions().cancelText
+                    },
+                    {
+                        text: options.confirmText || _defaultOptions().confirmText,
+                        color: conf.confirmTextColor || _defaultOptions().confirmTextColor
+                    }
+                ]
+            }, conf));
+        }
+    }
+</script>
