@@ -4,6 +4,8 @@
 
 此组件依赖 [wepy](https://github.com/Tencent/wepy) 1.7.0+。
 
+如果你正在使用 wepy 2.x，请移步 [wepy2-com-dialog](https://github.com/fudiwei/wepy2-com-dialog)。
+
 ---
 
 ## 用法
