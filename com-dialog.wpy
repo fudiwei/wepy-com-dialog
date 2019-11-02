@@ -1,53 +1,53 @@
 <style lang="less">
-
     .ui-dialog-mask {
-      position: fixed;
-      left: 0;
-      top: 0;
-      width: 100%;
-      height: 100%;
-      background-color: rgba(0, 0, 0, 0.4);
-      z-index: 9998;
+        position: fixed;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.4);
+        z-index: 9998;
     }
 
     .ui-dialog-wrapper {
-      position: absolute;
-      margin: 0 auto;
-      top: 50%;
-      left: 50%;
-      max-width: 90%;
-      width: 600rpx;
-      word-break: break-all;
-      border: none;
-      border-radius: 5px;
-      background-color: #fff;
-      overflow: hidden;
-      transform: translate(-50%, -55%);
-      z-index: 9999;
+        position: absolute;
+        margin: 0 auto;
+        top: 50%;
+        left: 50%;
+        max-width: 90%;
+        width: 600rpx;
+        word-break: break-all;
+        border: none;
+        border-radius: 5px;
+        background-color: #fff;
+        overflow: hidden;
+        transform: translate(-50%, -55%);
+        z-index: 9999;
+    }
 
-      .ui-dialog-header {
+    .ui-dialog-header {
         color: #333;
         padding: 32rpx 48rpx 0;
 
         .ui-dialog-title {
-          font-weight: bold;
-          text-align: center;
-          text-overflow: ellipsis;
-          white-space: nowrap;
-          overflow: hidden;
+            font-weight: bold;
+            text-align: center;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            overflow: hidden;
         }
-      }
+    }
 
-      .ui-dialog-body {
+    .ui-dialog-body {
         color: #999;
         padding: 32rpx 48rpx 40rpx;
 
         .ui-dialog-content {
-          text-align: center;
+            text-align: center;
         }
-      }
+    }
 
-      .ui-dialog-footer {
+    .ui-dialog-footer {
         display: flex;
         align-items: center;
         justify-content: center;
@@ -56,36 +56,35 @@
         overflow: hidden;
 
         .ui-dialog-btn-wrapper {
-          position: relative;
-          flex: 1;
-          padding: 20rpx 10rpx;
-          text-align: center;
-          text-overflow: ellipsis;
-          white-space: nowrap;
-          overflow: hidden;
+            position: relative;
+            flex: 1;
+            padding: 20rpx 10rpx;
+            text-align: center;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            overflow: hidden;
 
-          &::after {
-            content: '';
-            display: block;
-            position: absolute;
-            top: 0;
-            right: 0;
-            width: 1px;
-            height: 100%;
-            background-color: #f1f1f1;
-          }
+            &::after {
+                content: '';
+                display: block;
+                position: absolute;
+                top: 0;
+                right: 0;
+                width: 1px;
+                height: 100%;
+                background-color: #f1f1f1;
+            }
 
-          &:last-child::after {
-            content: none;
-          }
+            &:last-child::after {
+                content: none;
+            }
+
+            .ui-dialog-btn {
+                width: 100%;
+                height: 100%;
+                overflow: hidden;
+            }
         }
-
-        .ui-dialog-btn {
-          width: 100%;
-          height: 100%;
-          overflow: hidden;
-        }
-      }
     }
 </style>
 
@@ -126,7 +125,7 @@
 
         props = {
             /**
-             * 确认按钮文字颜色。
+             * 确认按钮的文字颜色。
              */
             primaryTextColor: {
                 type: String,
@@ -148,7 +147,7 @@
 
         methods = {
             noop(e) {
-                // DoNothing
+                // Do nothing
                 return false;
             },
 
@@ -190,8 +189,7 @@
             this.textAlign = conf.textAlign;
             this.vertical = conf.vertical;
             this.success = conf.success;
-
-            setTimeout(() => this.$apply(), 1);
+            this.$apply();
         }
 
         _close() {

@@ -21,10 +21,10 @@ npm install @step/wepy-com-dialog --save
     <ui-dialog />
 </template>
 <script>
-    import wepy from 'wepy';
+    import Wepy from 'wepy';
     import UIDialog from '@step/wepy-com-dialog';
 
-    export default class DemoPage extends wepy.page {
+    export default class DemoPage extends Wepy.page {
         components = {
             'ui-dialog': UIDialog
         };
