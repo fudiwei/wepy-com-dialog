@@ -202,7 +202,7 @@
 
         /**
          * 显示提示对话框。
-         * @param {Object || String} options 配置项。
+         * @param {Object | String} options 配置项。
          * @param {String} options.title 提示标题。
          * @param {String} options.content 提示文本。
          * @param {String} options.confirmText 确定按钮的文字，默认为"好的"。
@@ -241,7 +241,7 @@
 
         /**
          * 显示确认对话框。
-         * @param {Object || String} options 配置项。
+         * @param {Object | String} options 配置项。
          * @param {String} options.title 提示标题。
          * @param {String} options.content 提示文本。
          * @param {String} options.confirmText 确定按钮的文字，默认为"好的"。
