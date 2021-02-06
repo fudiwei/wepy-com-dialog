@@ -1,5 +1,5 @@
 {
-    "name": "@step/wepy-com-dialog",
+    "name": "@skit/wepy-com-dialog",
     "title": "wepy-com-dialog",
     "description": "A component for displaying a dialog based on wepy.js 1.x.",
     "version": "1.0.0",
