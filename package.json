@@ -14,5 +14,7 @@
         "deploy": "npm publish --access=public"
     },
     "dependencies": {},
-    "devDependencies": {}
+    "devDependencies": {
+        "wepy": "^1.7.2"
+    }
 }
