@@ -13,7 +13,7 @@
 安装：
 
 ``` shell
-npm install @step/wepy-com-dialog --save
+npm install @skit/wepy-com-dialog --save
 ```
 
 导入：
@@ -24,7 +24,7 @@ npm install @step/wepy-com-dialog --save
 </template>
 <script>
     import Wepy from 'wepy';
-    import UIDialog from '@step/wepy-com-dialog';
+    import UIDialog from '@skit/wepy-com-dialog';
 
     export default class DemoPage extends Wepy.page {
         components = {
